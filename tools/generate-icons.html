@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>Icônes DTC Diag Pro</title></head>
+<body style="font-family:system-ui;background:#111;color:#fff;padding:2rem;text-align:center">
+<h2>Icônes PWA — DTC Diag Pro</h2>
+<p>Cliquez, puis placez les 3 PNG téléchargés dans <code>assets/icons/</code></p>
+<button onclick="tout()" style="font-size:1.2rem;padding:1rem 2rem;cursor:pointer">⬇️ Télécharger les 3 icônes</button>
+<div><canvas id="c" style="margin-top:1rem;border:1px solid #444"></canvas></div>
+<script>
+function draw(ctx, S, mask){
+  ctx.fillStyle = "#0b0f1a"; ctx.fillRect(0,0,S,S);
+  const k = mask ? 0.62 : 1;
+  ctx.save(); ctx.translate(S/2,S/2); ctx.scale(k,k); ctx.translate(-S/2,-S/2);
+  ctx.strokeStyle = "#2e8fff"; ctx.lineWidth = S*0.058;
+  ctx.beginPath(); ctx.arc(S/2,S/2,S*0.33,0,7); ctx.stroke();
+  ctx.strokeStyle = "#f39c12"; ctx.lineWidth = S*0.05; ctx.lineCap = "round"; ctx.lineJoin = "round";
+  ctx.beginPath();
+  ctx.moveTo(S*0.29,S/2); ctx.lineTo(S*0.41,S/2); ctx.lineTo(S*0.47,S*0.36);
+  ctx.lineTo(S*0.55,S*0.64); ctx.lineTo(S*0.61,S/2); ctx.lineTo(S*0.71,S/2);
+  ctx.stroke();
+  ctx.fillStyle = "#fff"; ctx.font = "bold "+(S*0.125)+"px Arial"; ctx.textAlign = "center";
+  ctx.fillText("DTC", S/2, S*0.88);
+  ctx.restore();
+}
+function fichier(size, mask, nom){
+  const c = document.getElementById("c"); c.width = c.height = size;
+  draw(c.getContext("2d"), size, mask);
+  const a = document.createElement("a");
+  a.download = nom; a.href = c.toDataURL("image/png");
+  document.body.appendChild(a); a.click(); a.remove();
+}
+function tout(){
+  fichier(192, false, "icon-192.png");
+  setTimeout(() => fichier(512, false, "icon-512.png"), 400);
+  setTimeout(() => fichier(512, true, "icon-maskable-512.png"), 800);
+}
+</script></body></html>
